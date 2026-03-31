@@ -1,70 +1,172 @@
-# Getting Started with Create React App
+# 🎁 Secret Santa Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 Overview
+This is a full stack Secret Santa application that allows users to upload employee CSV files via a web interface and generates assignments using a backend API.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
+- Upload employee CSV files through UI
+- Upload previous year assignment file
+- Backend API to process CSV data
+- Prevent self-assignment
+- Avoid previous year assignments
+- Generate Secret Santa mapping
+- Display results in a table (frontend)
+- Supports both CLI and API-based execution
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📁 Project Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+secret-santa/
+│
+├── src/
+│   ├── models/
+│   ├── services/
+│   ├── utils/
+│   ├── validators/
+│   ├── index.js        (CLI version)
+│   └── server.js       (API version)
+│
+├── frontend/
+│   ├── src/
+│   │   └── App.js
+│
+├── data/
+├── output/
+└── README.md
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📥 Input Files
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. employees.csv
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Employee_Name,Employee_EmailID
+John Doe,john@example.com
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Jane Smith,jane@example.com
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. lastYear.csv 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Employee_Name,Employee_EmailID,Secret_Child_Name,Secret_Child_EmailID
+John Doe,john@example.com,Jane Smith,jane@example.com
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 📤 Output File
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### result.csv
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Employee_Name,Employee_EmailID,Secret_Child_Name,Secret_Child_EmailID
+John Doe,john@example.com,Jane Smith,jane@example.com
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## ⚙️ Installation & Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Backend (API)
 
-### Making a Progressive Web App
+cd secret-santa
+npm install
+node src/server.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Frontend (React)
 
-### Advanced Configuration
+cd secret-santa-frontend
+npm install
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🌿 Git Workflow
 
-### Deployment
+- Used separate branches for backend and frontend development
+- Maintained clean commits
+- Set branches as default for respective repositories
+- Pushed code to GitHub
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+### 1. Clone the repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Backend - git clone https://github.com/yoga-lakshmi21/secret-santa.git
+Frontend - git clone https://github.com/yoga-lakshmi21/secret-santa-frontend.git
+
+### 2. Install dependencies
+
+npm install
+
+For CLI Method:
+
+### 3. Add input files
+Place your CSV files inside:
+
+data/employees.csv
+data/lastYear.csv
+
+For API integration Method:
+
+Upload both CSV files and click the "Generate" button
+
+
+### 4. Run the application
+
+### ▶️ Run Backend (API Mode)
+node src/server.js
+
+### ▶️ Run CLI Mode (Optional)
+node src/index.js
+
+### ▶️ Run Frontend 
+ npm start
+
+
+---
+
+## 🔗 API Endpoint
+
+POST /generate
+
+- Accepts:
+  - employees.csv
+  - lastYear.csv
+- Returns:
+  - Secret Santa assignments in JSON format
+
+## ✅ Assumptions
+- Each employee has a unique email ID
+- At least 2 employees are required
+- Previous year data may be partial or empty
+- CSV headers must match the expected format
+
+---
+
+## ⚠️ Error Handling
+- Duplicate email detection
+- Invalid or missing data validation
+- Retry mechanism for assignment generation
+- File handling errors
+
+---
+
+## 🔁 Algorithm Approach
+- Employees are shuffled using Fisher-Yates algorithm
+- Assignments are validated against:
+  - Self-assignment
+  - Previous year assignment
+- If invalid, reshuffle and retry (max 1000 attempts)
+
+---
+
+## 🧪 Future Improvements
+- Add unit tests using Jest
+- Add logging system
+
+---
+
+## 👨‍💻 Author
+Yogalakshmi
+Email: yoga21111998@gmail.com  
